@@ -43,6 +43,31 @@ def test_extended_constituents() -> None:
         assert abs(c.speed(a) / 360.0 - frequency) < 1e-6, name
 
 
+def test_Tide_noaa() -> None:
+    from pytides2 import constituent
+    from pytides2.tide import Tide
+
+    by_name = {c.name: c for c in constituent.noaa}
+    amplitudes = {"M2": 1.5, "S2": 0.5, "K1": 0.4, "O1": 0.3, "N2": 0.2}
+    phases = {"M2": 45.0, "S2": 90.0, "K1": 120.0, "O1": 200.0, "N2": 300.0}
+
+    synthetic = Tide(
+        constituents=[by_name[n] for n in amplitudes],
+        amplitudes=[amplitudes[n] for n in amplitudes],
+        phases=[phases[n] for n in amplitudes],
+    )
+    t0 = datetime(2015, 1, 1)
+    times = [t0 + timedelta(hours=h) for h in range(24 * 120)]
+    heights = synthetic.at(times)
+
+    # Fitting with the NOAA set should recover the input constituents.
+    tide, _ = Tide.decompose(heights, np.array(times), constituents=constituent.noaa)
+    fitted = {m["constituent"].name: m for m in tide.model}
+    for name in amplitudes:
+        assert abs(fitted[name]["amplitude"] - amplitudes[name]) < 1e-3
+        assert abs(fitted[name]["phase"] - phases[name]) < 0.5
+
+
 def test_Tide_extended() -> None:
     from pytides2 import constituent
     from pytides2.tide import Tide
