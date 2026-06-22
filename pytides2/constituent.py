@@ -254,7 +254,7 @@ _3MK7 = CompoundConstituent(name="3MK7", members=[(_M2, 3), (_K1, 1)])
 # Eighth-Diurnals
 _M8 = CompoundConstituent(name="M8", members=[(_M2, 4)])
 
-# NOAA set (38 tidal constituents)
+# NOAA set (37 tidal constituents)
 noaa = [
     _M2,
     _S2,
