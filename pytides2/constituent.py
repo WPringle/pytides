@@ -254,7 +254,7 @@ _3MK7 = CompoundConstituent(name="3MK7", members=[(_M2, 3), (_K1, 1)])
 # Eighth-Diurnals
 _M8 = CompoundConstituent(name="M8", members=[(_M2, 4)])
 
-
+# NOAA set (38 tidal constituents)
 noaa = [
     _M2,
     _S2,
@@ -297,6 +297,8 @@ noaa = [
 
 # Extended 67-constituent set (the NOAA set above augmented with the additional
 # minor and shallow-water constituents), ordered by increasing frequency.
+# list provided by Pengcheng Wang, obtained by setting Rayleigh criteria to 0.8
+# note M1 in NOAA set is replaced by NO1 here.
 extended = [
     _Sa,
     _Ssa,

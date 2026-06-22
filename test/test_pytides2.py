@@ -92,9 +92,11 @@ def test_Tide() -> None:
     assert t.model[0]["amplitude"] == 178.94736842105263
     assert t.model[0][2] == 0.0
     assert len(t.model) == 33
-    assert (
-        t.formzahl == 0.3691950696609845
-        or t.formzahl == 0.38101230038937306
-        or t.formzahl == 0.38376753628038296
+    # The exact value drifts slightly with the numpy/scipy/BLAS version (the
+    # least-squares solver does not fully converge on this short record), so
+    # compare against the known results with a tolerance rather than exactly.
+    assert any(
+        abs(t.formzahl - v) < 1e-3
+        for v in (0.3691950696609845, 0.38101230038937306, 0.38376753628038296)
     )
     assert t.type == "mixed (semidiurnal)"
